@@ -14,7 +14,6 @@ const reducers = combineReducers({
   theme: themeSlice
 });
 
-
 const store = createStore(reducers, composeWithDevTools(
   applyMiddleware(thunk))
 );

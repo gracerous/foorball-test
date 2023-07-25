@@ -20,6 +20,10 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     return league ? league.name : '';
   };
 
+  const getCellStyle = (params) => {
+    return { display: 'flex', alignItems: 'center', justifyContent: 'center' };
+  };
+
   const gameDate = (params) => {
     const timestamp = params.data.timestamp;
     const date = new Date(timestamp * 1000);
@@ -33,11 +37,11 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: 'league_id', headerName: 'Лига', valueGetter: leagueName },
-    { field: 'home_id', headerName: 'Дома', valueGetter: (params) => teamName(params, true) },
-    { field: 'series', headerName: 'Серия', valueGetter: (params) => params.data.stat_home || params.data.stat_away },
-    { field: 'away_id', headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
-    { field: 'date', headerName: 'Дата', valueGetter: gameDate, wrapText: false },
+    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Лига', valueGetter: leagueName },
+    { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true) },
+    { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: (params) => params.data.stat_home || params.data.stat_away },
+    { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
+    { field: 'date', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Дата', valueGetter: gameDate, wrapText: false },
   ]);
 
   const defaultColDef = useMemo(
@@ -51,6 +55,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     }), []);
 
   const headerHeight = 40;
+  const rowHeight = 40;
 
   const rowStyle = { background: theme.palette.table.primary };
   const getRowStyle = params => {
@@ -60,7 +65,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   return (
-    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '550px', borderRadius: '10px' }}>
+    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px' }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
@@ -69,7 +74,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
         defaultColDef={defaultColDef}
         autoHeaderHeight
         headerHeight={headerHeight}
-        rowHeight='auto'
+        rowHeight={rowHeight}
         domLayout={'autoHeight'}
         rowStyle={rowStyle}
         getRowStyle={getRowStyle}

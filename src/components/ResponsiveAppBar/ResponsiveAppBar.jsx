@@ -4,21 +4,23 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+// import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+// import Avatar from '@mui/material/Avatar';
+// import Button from '@mui/material/Button';
+// import Tooltip from '@mui/material/Tooltip';
+// import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormGroup from '@mui/material/FormGroup';
+// import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
+// import Stack from '@mui/material/Stack';
+import { toggleTheme } from '../../redux/reducers/themeSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -27,7 +29,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   height: 50,
   padding: 7,
   '& .MuiSwitch-switchBase': {
-    margin:1,
+    margin: 1,
     padding: 0,
     top: 9,
     transform: 'translateX(8px)',
@@ -72,7 +74,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
+// const pages = ['Products', 'Pricing', 'Blog'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -81,18 +83,18 @@ function ResponsiveAppBar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  // const handleOpenUserMenu = (event) => {
+  //   setAnchorElUser(event.currentTarget);
+  // };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
+  // const handleCloseUserMenu = () => {
+  //   setAnchorElUser(null);
+  // };
+  const dispatch = useDispatch();
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -146,7 +148,7 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-          <MaterialUISwitch sx={{marginLeft:'auto'}}/>
+          <MaterialUISwitch onClick={() => dispatch(toggleTheme())} sx={{ marginLeft: 'auto' }} />
         </Toolbar>
         {/* <MaterialUISwitch/> */}
       </Container>
