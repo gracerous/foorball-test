@@ -12,8 +12,12 @@ export default function TodaySeriesPage() {
 
   const minTimeStamp = 1687282001;
   const maxTimeStamp = 1887282001;
-  // const minTimeStamp = Math.floor(Date.now() / 1000);
-  // const maxTimeStamp = Math.floor(new Date(minTimeStamp * 1000).setHours(23, 59, 59, 999) / 1000);
+
+  // const [minTimeStamp, maxTimeStamp] = useMemo(() => {
+  //   const minTimeStamp = Math.floor(Date.now() / 1000);
+  //   const maxTimeStamp = Math.floor(new Date(minTimeStamp * 1000).setHours(23, 59, 59, 999) / 1000);
+  //   return [minTimeStamp, maxTimeStamp];
+  // }, []);
 
   useEffect(() => {
     dispatch(fetchGoalSeries(minTimeStamp, maxTimeStamp));

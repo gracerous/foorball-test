@@ -1,4 +1,3 @@
-// import { SET_CURRENT_GAMES } from "../actions/gamesActions";
 import { SET_GOAL_SERIES, SET_YCARDS_SERIES, SET_SERIES_LIMIT } from "../actions/seriesActions";
 
 const initialState = {

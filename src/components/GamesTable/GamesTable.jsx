@@ -18,14 +18,13 @@ export default function GamesTable({ rowData, teams }) {
 
   const gameScore = (params) => {
     const homeTeamScore = params.data.home_goals !== null ? params.data.home_goals : '';
-    const awayTeamScore = params.data.away_goals !==null ? params.data.away_goals : '';
+    const awayTeamScore = params.data.away_goals !== null ? params.data.away_goals : '';
     return `${homeTeamScore} - ${awayTeamScore}`;
   };
 
   const gameDate = (params) => {
     const timestamp = params.data.timestamp;
     const date = new Date(timestamp * 1000);
-    // const date = new Date(timestamp);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString().slice(-2);
@@ -34,17 +33,6 @@ export default function GamesTable({ rowData, teams }) {
     const formattedDate = `${day}/${month}/${year} | ${hours}:${minutes}`;
     return formattedDate;
   };
-
-  // const [columnDefs, setColumnDefs] = useState([
-  //   { field: 'date', headerName: 'Дата', valueGetter: gameDate, wrapText: false },
-  //   { field: 'home_id', headerName: 'Дома', valueGetter: (params) => teamName(params, true) },
-  //   {
-  //     field: 'score',
-  //     headerName: 'Счет',
-  //     valueGetter: gameScore,
-  //   },
-  //   { field: 'away_id', headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
-  // ]);
 
   const [columnDefs, setColumnDefs] = useState([
     { field: 'league_id', headerName: 'Лига', wrapText: false },
@@ -55,6 +43,7 @@ export default function GamesTable({ rowData, teams }) {
       valueGetter: gameScore,
     },
     { field: 'away_id', headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
+    { field: 'date', headerName: 'Дата', valueGetter: gameDate, wrapText: false },
   ]);
 
   const defaultColDef = useMemo(

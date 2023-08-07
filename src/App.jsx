@@ -4,9 +4,9 @@ import { fetchTeamsAndLeagues } from './redux/dataMiddleware';
 import { useDispatch, useSelector } from 'react-redux';
 import PageNavigation from './components/PageNavigation/PageNavigation';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Box, Button, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { toggleTheme } from './redux/reducers/themeSlice';
+// import { toggleTheme } from './redux/reducers/themeSlice';
 import ResponsiveAppBar from './components/ResponsiveAppBar/ResponsiveAppBar';
 import TodaySeriesPage from './pages/TodaySeriesPage';
 import TomorrowSeriesPage from './pages/TomorrowSeriesPage';
@@ -73,7 +73,7 @@ function App() {
   const [mode, setMode] = useState('light');
   const darkMode = useSelector((state) => state.theme.darkMode);
 
-  useMemo(() => {
+  useEffect(() => {
     if (darkMode) {
       setMode('dark');
     } else {
@@ -91,7 +91,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter >
+      {/* <BrowserRouter > */}
         <Box
           className='backgroundContainer'
           sx={{
@@ -116,7 +116,7 @@ function App() {
             </Box>
           </Box>
         </Box>
-      </BrowserRouter>
+      {/* </BrowserRouter> */}
     </ThemeProvider>
   );
 }

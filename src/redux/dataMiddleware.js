@@ -1,6 +1,7 @@
 import axios from 'axios';
 // import { setCurrentGames } from './actions/gamesActions';
-import { getTeams, getLeagues } from './actions/mainInfoActions';
+// import { getTeams, getLeagues } from './actions/mainInfoActions';
+import { getTeams, getLeagues } from './reducers/mainInfoSlice';
 import { setGoalSeries, setYCardsSeries, setSeriesLimit } from './actions/seriesActions';
 
 const API_URL = 'https://footballproject-backend-8de9272134c8.herokuapp.com';

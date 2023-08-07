@@ -44,15 +44,14 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     { field: 'date', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Дата', valueGetter: gameDate, wrapText: false },
   ]);
 
-  const defaultColDef = useMemo(
-    () => ({
-      flex: 1,
-      lockPosition: true,
-      filter: false,
-      sortable: true,
-      wrapText: true,
-      autoHeight: true,
-    }), []);
+  const defaultColDef = {
+    flex: 1,
+    lockPosition: true,
+    filter: false,
+    sortable: true,
+    wrapText: true,
+    autoHeight: true,
+  };
 
   const headerHeight = 40;
   const rowHeight = 40;

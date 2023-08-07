@@ -6,7 +6,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 import ListItemText from '@mui/material/ListItemText';
 import TodayIcon from '@mui/icons-material/Today';
-import { useNavigate, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import './PageNavigation.css';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -14,7 +14,6 @@ import { useTheme } from '@mui/material/styles';
 const drawerWidth = 100;
 
 export default function PageNavigation() {
-  // const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
 
