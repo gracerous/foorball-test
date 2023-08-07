@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchGoalSeries, fetchYCardsSeries } from '../redux/dataMiddleware';
+import { fetchGoalSeries, fetchYCardsSeries } from '../redux/reducers/seriesSlice';
 import DnDArea from '../components/DnDArea/DnDArea';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -21,9 +21,9 @@ export default function TomorrowSeriesPage() {
 
 
   useEffect(() => {
-    dispatch(fetchGoalSeries(minTimeStamp, maxTimeStamp));
-    dispatch(fetchYCardsSeries(minTimeStamp, maxTimeStamp));
-  }, []);
+    dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp }));
+    dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp }));
+  }, [dispatch, minTimeStamp, maxTimeStamp]);
 
   const goalsSeries = useSelector((state) => state.series.goals);
   const yCardsSeries = useSelector((state) => state.series.yCards);

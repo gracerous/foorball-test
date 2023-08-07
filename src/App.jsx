@@ -92,32 +92,30 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <BrowserRouter > */}
-        <Box
-          className='backgroundContainer'
-          sx={{
-            position: 'sticky',
-            display: 'block',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            bgcolor: theme.palette.background.default,
-          }}
-        >
-          <Box className='App'>
-            <ResponsiveAppBar />
-            <PageNavigation />
-            <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
-              <Routes>
-                <Route path='/today-games' element={<TodaySeriesPage />} />
-                <Route path='/tomorrow-games' element={<TomorrowSeriesPage />} />
-                <Route path='*' element={<ErrorPage />} />
-              </Routes>
-            </Box>
+      <Box
+        className='backgroundContainer'
+        sx={{
+          position: 'sticky',
+          display: 'block',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          bgcolor: theme.palette.background.default,
+        }}
+      >
+        <Box className='App'>
+          <ResponsiveAppBar />
+          <PageNavigation />
+          <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
+            <Routes>
+              <Route path='/today-games' element={<TodaySeriesPage />} />
+              <Route path='/tomorrow-games' element={<TomorrowSeriesPage />} />
+              <Route path='*' element={<ErrorPage />} />
+            </Routes>
           </Box>
         </Box>
-      {/* </BrowserRouter> */}
+      </Box>
     </ThemeProvider>
   );
 }

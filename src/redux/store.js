@@ -1,21 +1,16 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-// import gamesReducer from './reducers/gamesReducer';
-import seriesReducer from './reducers/seriesReducer';
-import mainInfoSlice from './reducers/mainInfoSlice';
-// import teamsReducer from './reducers/teamsReducer';
-import themeSlice from './reducers/themeSlice';
+import seriesReducer from './reducers/seriesSlice';
+import mainInfoReducer from './reducers/mainInfoSlice';
+import themeReducer from './reducers/themeSlice';
 
-const reducers = combineReducers({
-  // games: gamesReducer,
-  mainInfo: mainInfoSlice,
-  series: seriesReducer,
-  theme: themeSlice
+const store = configureStore({
+  reducer: {
+    mainInfo: mainInfoReducer,
+    series: seriesReducer,
+    theme: themeReducer
+  },
+  middleware: [thunk]
 });
-
-const store = createStore(reducers, composeWithDevTools(
-  applyMiddleware(thunk))
-);
 
 export default store;

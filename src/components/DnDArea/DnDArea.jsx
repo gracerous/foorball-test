@@ -13,12 +13,10 @@ import { Box } from '@mui/material';
 import SortableItemSeries from '../SortableItem/SortableItemSeries';
 
 
-export default function DnDArea({ minTimeStamp, maxTimeStamp, statSeries }) {
+export default function DnDArea({ statSeries }) {
 
   const teams = useSelector((state) => state.mainInfo.teams);
   const leagues = useSelector((state) => state.mainInfo.leagues);
-  // const goalsSeries = useSelector((state) => state.series.goals);
-  // const seriesLimit = useSelector((state) => state.series.seriesLimit);
 
   const gamesPerTable = 5;
 

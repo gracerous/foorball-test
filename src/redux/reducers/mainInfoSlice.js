@@ -29,14 +29,7 @@ const initialState = {
 const mainInfoSlice = createSlice({
   name: 'mainInfo',
   initialState,
-  reducers: {
-    getTeams: (state, action) => {
-      state.teams = action.payload;
-    },
-    getLeagues: (state, action) => {
-      state.leagues = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getMainInfo.fulfilled, (state, action) => {
