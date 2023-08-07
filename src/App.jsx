@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import './App.css';
-import { fetchTeamsAndLeagues } from './redux/dataMiddleware';
+// import { fetchTeamsAndLeagues } from './redux/dataMiddleware';
+import { getMainInfo } from './redux/reducers/mainInfoSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PageNavigation from './components/PageNavigation/PageNavigation';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -84,7 +85,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTeamsAndLeagues());
+    dispatch(getMainInfo());
   }, []);
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
