@@ -1,10 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGoalSeries, fetchYCardsSeries } from '../redux/reducers/seriesSlice';
 import DnDArea from '../components/DnDArea/DnDArea';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import TableSkeleton from '../components/TableSkeleton/TableSkeleton';
+import SeriesTable from '../components/SeriesTable/SeriesTable';
+import {
+  DndContext,
+  closestCenter,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import SortableItemSeries from '../components/SortableItem/SortableItemSeries';
 
 export default function TodaySeriesPage() {
   const theme = useTheme();
@@ -12,15 +23,49 @@ export default function TodaySeriesPage() {
 
   const minTimeStamp = 1687282001;
   const maxTimeStamp = 1887282001;
+  const seriesLimit = 5;
 
   useEffect(() => {
-    dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp }));
-    dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp }));
-  }, [dispatch, minTimeStamp, maxTimeStamp]);
+    dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, seriesLimit }));
+    dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, seriesLimit }));
+  }, [dispatch, minTimeStamp, maxTimeStamp, seriesLimit]);
+
+  const series = useSelector((state) => state.series);
+  
+
+  const [items, setItems] = useState([]);
+
+
+  useEffect(() => {
+    const seriesArr = Object.values(series);
+    setItems(seriesArr);
+  }, [series]);
 
 
   const goalsSeries = useSelector((state) => state.series.goals);
   const yCardsSeries = useSelector((state) => state.series.yCards);
+
+  const teams = useSelector((state) => state.mainInfo.teams);
+  const leagues = useSelector((state) => state.mainInfo.leagues);
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+  
+    if (active.id !== (over && over.id)) {
+      setItems((items) => {
+        const oldIndex = items.findIndex(item => item.id === active.id);
+        const newIndex = items.findIndex(item => item.id === over.id);
+  
+        if (oldIndex !== -1 && newIndex !== -1) {
+          return arrayMove(items, oldIndex, newIndex);
+        } else {
+          return items;
+        }
+      });
+    }
+  };
+  
 
   const containerStyle = useMemo(
     () => ({
@@ -29,13 +74,34 @@ export default function TodaySeriesPage() {
 
   return (
     <>
-      <Box sx={containerStyle}>
-        <Typography component="h2" variant='h5' sx={{ color: theme.palette.text.primary }}>Забивает в матче</Typography>
-        {goalsSeries.length > 0 ? <DnDArea minTimeStamp={minTimeStamp} maxTimeStamp={maxTimeStamp} statSeries={goalsSeries} /> : <TableSkeleton />}
-      </Box>
-      <Box sx={containerStyle}>
-        <Typography component="h2" variant='h5' sx={{ color: theme.palette.text.primary }} >Получает желтые карточки в матче</Typography>
-        {yCardsSeries.length > 0 ? <DnDArea minTimeStamp={minTimeStamp} maxTimeStamp={maxTimeStamp} statSeries={yCardsSeries} /> : <TableSkeleton />}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          alignContent: 'space-between',
+          '& > *': {
+            margin: '10px',
+          }
+        }}
+      >
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={items} strategy={rectSortingStrategy}>
+            {items.map((item) =>
+              <SortableItemSeries
+                key={item.id}
+                id={item.id}
+                rowData={item.games}
+                teams={teams}
+                leagues={leagues}
+              />
+            )}
+          </SortableContext>
+        </DndContext>
       </Box>
     </>
   )

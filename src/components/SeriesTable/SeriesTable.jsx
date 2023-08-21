@@ -64,7 +64,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   return (
-    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px' }}>
+    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px', height: 500 }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
@@ -74,7 +74,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
         autoHeaderHeight
         headerHeight={headerHeight}
         rowHeight={rowHeight}
-        domLayout={'autoHeight'}
+        domLayout={'normal'}
         rowStyle={rowStyle}
         getRowStyle={getRowStyle}
       />
