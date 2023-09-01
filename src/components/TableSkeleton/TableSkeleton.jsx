@@ -22,8 +22,7 @@ export default function TableSkeleton() {
       }
     }}>
       <Skeleton variant='rounded' animation='wave' sx={skeletonStyle} />
-      <Skeleton variant='rounded' animation='wave' sx={skeletonStyle} />
-      <Skeleton variant='rounded' animation='wave' sx={skeletonStyle} />
+
     </Box>
   )
 }

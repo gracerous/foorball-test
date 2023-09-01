@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { Paper } from '@mui/material';
+import { Box, Paper, Tooltip } from '@mui/material';
 import 'ag-grid-community/styles/ag-grid.css';
 import './SeriesTable.css';
 import { useTheme } from '@mui/material/styles';
@@ -14,10 +14,31 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     const team = teams.find((team) => team.id === teamId);
     return team ? team.name : '';
   };
-  const leagueName = (params) => {
+
+  const leagueLogoRenderer = (params) => {
     const leagueId = params.data.league_id;
     const league = leagues.find((league) => league.id === leagueId);
-    return league ? league.name : '';
+
+    if (league && league.logo) {
+      return (
+        <Box
+          display='flex'
+          alignItems='center'
+          justifyContent='center'
+          height='100%'
+        >
+          <Tooltip title={league.name} placement='top'>
+            <img
+              src={league.logo}
+              alt={`League Logo - ${league.name}`}
+              style={{ width: '30px', height: '30px' }}
+            />
+          </Tooltip>
+        </Box>
+      );
+    } else {
+      return league.name;
+    }
   };
 
   const getCellStyle = (params) => {
@@ -37,7 +58,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Лига', valueGetter: leagueName },
+    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Лига', cellRenderer: leagueLogoRenderer },
     { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true) },
     { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: (params) => params.data.stat_home || params.data.stat_away },
     { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
@@ -64,7 +85,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   return (
-    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px', height: 500 }}>
+    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px', height: 420 }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}

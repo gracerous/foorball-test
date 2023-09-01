@@ -1,12 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useTheme } from '@mui/material/styles';
-import { Box, Button } from '@mui/material';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { Box, Typography } from '@mui/material';
 import SeriesTable from '../SeriesTable/SeriesTable';
-import { useMemo } from 'react';
 
-const SortableItemSeries = ({ id, rowData, teams, leagues }) => {
+const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
   const theme = useTheme();
   const {
     attributes,
@@ -20,45 +18,37 @@ const SortableItemSeries = ({ id, rowData, teams, leagues }) => {
     transform: CSS.Transform.toString(transform),
     transition: transition || undefined,
     position: 'relative',
-    minHeight: '200px',
+    // minHeight: '200px',
+    border: '2px solid red',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '500px'
   };
-
-  const buttonContainerStyle = {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    zIndex: 1,
-    height: '41px',
-  };
-
-  const containerStyle = useMemo(
-    () => ({
-      mt: '3em'
-    }), []);
 
   return (
-    <Box sx={containerStyle}>
-      <div ref={setNodeRef} style={style}>
-        <div style={buttonContainerStyle}>
-          <Button
-            sx={{
-              minWidth: '10px',
-              height: '100%',
-              borderRadius: '10px',
-              color: theme.palette.text.icons
-            }}
-            {...listeners}
-            {...attributes}
-          >
-            <DragIndicatorIcon />
-          </Button>
-        </div>
+    <Box sx={style} ref={setNodeRef}>
+      <Box
+        sx={{
+          minWidth: '50px',
+          height: '100%',
+          borderRadius: '10px',
+          color: theme.palette.text.icons
+        }}
+        {...listeners}
+        {...attributes}
+      >
+        <Box>
+          <Typography variant='h4'>{categoryName}</Typography>
+        </Box>
+      </Box>
+      <Box>
         <SeriesTable
           rowData={rowData}
           teams={teams}
           leagues={leagues}
         />
-      </div>
+      </Box>
     </Box>
   );
 };

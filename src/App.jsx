@@ -17,6 +17,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import MainPage from './pages/MainPage';
 
 
 const getDesignTokens = (mode) => ({
@@ -106,9 +107,10 @@ function App() {
       >
         <Box className='App'>
           <ResponsiveAppBar />
-          <PageNavigation />
+          {/* <PageNavigation /> */}
           <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
             <Routes>
+              <Route path='/' element={<MainPage />} />
               <Route path='/today-games' element={<TodaySeriesPage />} />
               <Route path='/tomorrow-games' element={<TomorrowSeriesPage />} />
               <Route path='*' element={<ErrorPage />} />

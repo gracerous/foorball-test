@@ -1,10 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-
-
 const API_URL = 'https://footballproject-backend-8de9272134c8.herokuapp.com';
-// const seriesLimit = 5;
 
 export const fetchGoalSeries = createAsyncThunk(
   'series/fetchGoalSeries',
@@ -22,36 +19,70 @@ export const fetchYCardsSeries = createAsyncThunk(
 );
 
 const initialState = {
-  goals: {},
-  yCards: {},
-  // seriesLimit: 0
+  goals: {
+    isLoading: false,
+    id: 'goals',
+    data:{}
+  },
+  yCards: {
+    isLoading: false,
+    id: 'yCards',
+    data:{}
+  }
 };
 
 const seriesSlice = createSlice({
   name: 'series',
   initialState,
   reducers: {
-    // setSeriesLimit: (state, action) => {
-    //   state.seriesLimit = [...action.payload];
-    // }
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
   extraReducers: {
+    [fetchGoalSeries.pending]: (state) => {
+      state.goals = {
+        ...state,
+        isLoading: true
+      };
+    },
     [fetchGoalSeries.fulfilled]: (state, action) => {
       state.goals = {
+        isLoading: false,
         id: 'goals',
-        games: [...action.payload]
-      }
+        categoryName: 'Забивает голы',
+        games: [...action.payload],
+      };
     },
     [fetchGoalSeries.rejected]: (state, action) => {
       console.log(state, action);
+      state.goals = {
+        ...state,
+        isLoading: false
+      };
+    },
+    [fetchYCardsSeries.pending]: (state) => {
+      state.yCards = {
+        ...state,
+        isLoading: true,
+      };
     },
     [fetchYCardsSeries.fulfilled]: (state, action) => {
       state.yCards = {
+        isLoading: false,
         id: 'yCards',
-        games: [...action.payload]
+        categoryName: 'Получает желтые карточки',
+        games: [...action.payload],
       };
-    }
-  },
+    },
+    [fetchYCardsSeries.rejected]: (state, action) => {
+      console.log(state, action);
+      state.yCards = {
+        ...state,
+        isLoading: false,
+      };
+    },
+  }
 })
 
 export const { setSeriesLimit } = seriesSlice.actions;
