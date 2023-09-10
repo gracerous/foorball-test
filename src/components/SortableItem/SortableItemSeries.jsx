@@ -3,6 +3,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useTheme } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import SeriesTable from '../SeriesTable/SeriesTable';
+import SeriesFilter from '../Filters/SeriesFilter/SeriesFilter';
 
 const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
   const theme = useTheme();
@@ -18,12 +19,11 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
     transform: CSS.Transform.toString(transform),
     transition: transition || undefined,
     position: 'relative',
-    // minHeight: '200px',
     border: '2px solid red',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '500px'
+    height: '400px'
   };
 
   return (
@@ -43,6 +43,9 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
         </Box>
       </Box>
       <Box>
+        <Box sx={{ marginBottom: '10px' }}>
+          <SeriesFilter />
+        </Box>
         <SeriesTable
           rowData={rowData}
           teams={teams}

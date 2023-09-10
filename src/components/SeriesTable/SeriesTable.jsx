@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { Box, Paper, Tooltip } from '@mui/material';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -41,8 +41,12 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     }
   };
 
-  const getCellStyle = (params) => {
+  const getCellStyle = () => {
     return { display: 'flex', alignItems: 'center', justifyContent: 'center' };
+  };
+
+  const getDateCellStyle = () => {
+    return { display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3px' };
   };
 
   const gameDate = (params) => {
@@ -53,16 +57,16 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     const year = date.getFullYear().toString().slice(-2);
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-    const formattedDate = `${day}/${month}/${year} | ${hours}:${minutes}`;
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
     return formattedDate;
   };
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Лига', cellRenderer: leagueLogoRenderer },
-    { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true) },
+    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 80, headerName: 'Лига', cellRenderer: leagueLogoRenderer },
+    { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true), wrapText: true },
     { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: (params) => params.data.stat_home || params.data.stat_away },
-    { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false) },
-    { field: 'date', cellStyle: getCellStyle, maxWidth: 110, headerName: 'Дата', valueGetter: gameDate, wrapText: false },
+    { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false), wrapText: true },
+    { field: 'date', cellStyle: getDateCellStyle, maxWidth: 62, headerName: 'Дата', valueGetter: gameDate, wrapText: true },
   ]);
 
   const defaultColDef = {
@@ -75,7 +79,7 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   const headerHeight = 40;
-  const rowHeight = 40;
+  const rowHeight = 50;
 
   const rowStyle = { background: theme.palette.table.primary };
   const getRowStyle = params => {
@@ -85,16 +89,14 @@ export default function SeriesTable({ rowData, teams, leagues }) {
   };
 
   return (
-    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '515px', borderRadius: '10px', height: 420 }}>
+    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '470px', borderRadius: '10px', height: '290px' }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
         animateRows={true}
         defaultColDef={defaultColDef}
-        autoHeaderHeight
         headerHeight={headerHeight}
-        rowHeight={rowHeight}
         domLayout={'normal'}
         rowStyle={rowStyle}
         getRowStyle={getRowStyle}

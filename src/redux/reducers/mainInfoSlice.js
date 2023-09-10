@@ -31,14 +31,6 @@ const mainInfoSlice = createSlice({
   name: 'mainInfo',
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(getMainInfo.fulfilled, (state, action) => {
-  //       state.teams = action.payload.teams;
-  //       state.leagues = action.payload.leagues;
-  //       state.isLoading = false
-  //     });
-  // },
   extraReducers: {
     [getMainInfo.pending]: (state) => {
       state.isLoading = true;

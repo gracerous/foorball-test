@@ -9,8 +9,6 @@ import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 // import { toggleTheme } from './redux/reducers/themeSlice';
 import ResponsiveAppBar from './components/ResponsiveAppBar/ResponsiveAppBar';
-import TodaySeriesPage from './pages/TodaySeriesPage';
-import TomorrowSeriesPage from './pages/TomorrowSeriesPage';
 import ErrorPage from './pages/ErrorPage';
 
 import '@fontsource/roboto/300.css';
@@ -18,6 +16,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import MainPage from './pages/MainPage';
+import { SeriesLimitsProvider } from './context/SeriesLimitsProvider';
 
 
 const getDesignTokens = (mode) => ({
@@ -93,31 +92,31 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        className='backgroundContainer'
-        sx={{
-          position: 'sticky',
-          display: 'block',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          bgcolor: theme.palette.background.default,
-        }}
-      >
-        <Box className='App'>
-          <ResponsiveAppBar />
-          {/* <PageNavigation /> */}
-          <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
-            <Routes>
-              <Route path='/' element={<MainPage />} />
-              <Route path='/today-games' element={<TodaySeriesPage />} />
-              <Route path='/tomorrow-games' element={<TomorrowSeriesPage />} />
-              <Route path='*' element={<ErrorPage />} />
-            </Routes>
+      <SeriesLimitsProvider>
+        <Box
+          className='backgroundContainer'
+          sx={{
+            position: 'sticky',
+            display: 'block',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: theme.palette.background.default,
+          }}
+        >
+          <Box className='App'>
+            <ResponsiveAppBar />
+            {/* <PageNavigation /> */}
+            <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
+              <Routes>
+                <Route path='/' element={<MainPage />} />
+                <Route path='*' element={<ErrorPage />} />
+              </Routes>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </SeriesLimitsProvider>
     </ThemeProvider>
   );
 }

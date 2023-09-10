@@ -7,7 +7,7 @@ export default function TableSkeleton() {
   const skeletonStyle = useMemo(
     () => ({
       width: 515,
-      height: 240,
+      height: 515,
       borderRadius: '10px'
     }), []);
 
@@ -22,7 +22,6 @@ export default function TableSkeleton() {
       }
     }}>
       <Skeleton variant='rounded' animation='wave' sx={skeletonStyle} />
-
     </Box>
   )
 }

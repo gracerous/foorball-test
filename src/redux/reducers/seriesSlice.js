@@ -5,15 +5,15 @@ const API_URL = 'https://footballproject-backend-8de9272134c8.herokuapp.com';
 
 export const fetchGoalSeries = createAsyncThunk(
   'series/fetchGoalSeries',
-  async ({ minTimeStamp, maxTimeStamp, seriesLimit }) => {
-    const result = await axios.get(`${API_URL}/mainstat/goal_rival?limit=${seriesLimit}&timestamp_min=${minTimeStamp}&timestamp_max=${maxTimeStamp}`);
+  async ({ minTimeStamp, maxTimeStamp, goalSeriesLimit }) => {
+    const result = await axios.get(`${API_URL}/mainstat/goal_rival?limit=${goalSeriesLimit}&timestamp_min=${minTimeStamp}&timestamp_max=${maxTimeStamp}`);
     return result.data;
   }
 );
 export const fetchYCardsSeries = createAsyncThunk(
   'series/fetchYCardsSeries',
-  async ({ minTimeStamp, maxTimeStamp, seriesLimit }) => {
-    const result = await axios.get(`${API_URL}/mainstat/y_card_rival?limit=${seriesLimit}&timestamp_min=${minTimeStamp}&timestamp_max=${maxTimeStamp}`);
+  async ({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }) => {
+    const result = await axios.get(`${API_URL}/mainstat/y_card_rival?limit=${yCardsSeriesLimit}&timestamp_min=${minTimeStamp}&timestamp_max=${maxTimeStamp}`);
     return result.data;
   }
 );
@@ -22,12 +22,12 @@ const initialState = {
   goals: {
     isLoading: false,
     id: 'goals',
-    data:{}
+    data: {}
   },
   yCards: {
     isLoading: false,
     id: 'yCards',
-    data:{}
+    data: {}
   }
 };
 
