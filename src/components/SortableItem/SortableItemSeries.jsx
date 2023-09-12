@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 import SeriesTable from '../SeriesTable/SeriesTable';
 import SeriesFilter from '../Filters/SeriesFilter/SeriesFilter';
 
-const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
+const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName, seriesLimitChange }) => {
   const theme = useTheme();
   const {
     attributes,
@@ -14,6 +14,10 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
     transform,
     transition
   } = useSortable({ id });
+
+  const seriesFilter = (limit) => {
+    seriesLimitChange(id, limit)
+  }
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -44,7 +48,7 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
       </Box>
       <Box>
         <Box sx={{ marginBottom: '10px' }}>
-          <SeriesFilter />
+          <SeriesFilter seriesFilter={seriesFilter} />
         </Box>
         <SeriesTable
           rowData={rowData}

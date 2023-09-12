@@ -1,13 +1,9 @@
 import { Box, Typography, Button } from '@mui/material';
 import React from 'react';
-import { useSeriesLimits } from '../../../context/SeriesLimitsProvider';
 
-export default function SeriesFilter() {
-  const { setGoalSeriesLimit, setYCardsSeriesLimit } = useSeriesLimits(); // Use the hook to access the context values
-
+export default function SeriesFilter({ seriesFilter }) {
   const handleSeriesLimitChange = (seriesLimit) => {
-    setGoalSeriesLimit(seriesLimit);
-    setYCardsSeriesLimit(seriesLimit);
+    seriesFilter(seriesLimit)
   };
 
   const buttonStyle = {
@@ -35,7 +31,7 @@ export default function SeriesFilter() {
         <Button sx={buttonStyle} onClick={() => handleSeriesLimitChange(3)}>3</Button>
         <Button sx={buttonStyle} onClick={() => handleSeriesLimitChange(4)}>4</Button>
         <Button sx={buttonStyle} onClick={() => handleSeriesLimitChange(5)}>5</Button>
-        <Button sx={buttonStyle}onClick={() => handleSeriesLimitChange(6)}>5+</Button>
+        <Button sx={buttonStyle} onClick={() => handleSeriesLimitChange(6)}>5+</Button>
       </Box>
     </Box>
   )

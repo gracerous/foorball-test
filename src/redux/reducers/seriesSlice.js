@@ -10,6 +10,7 @@ export const fetchGoalSeries = createAsyncThunk(
     return result.data;
   }
 );
+
 export const fetchYCardsSeries = createAsyncThunk(
   'series/fetchYCardsSeries',
   async ({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }) => {
@@ -42,7 +43,7 @@ const seriesSlice = createSlice({
   extraReducers: {
     [fetchGoalSeries.pending]: (state) => {
       state.goals = {
-        ...state,
+        ...state.goals,
         isLoading: true
       };
     },
@@ -63,7 +64,7 @@ const seriesSlice = createSlice({
     },
     [fetchYCardsSeries.pending]: (state) => {
       state.yCards = {
-        ...state,
+        ...state.yCards,
         isLoading: true,
       };
     },
