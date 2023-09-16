@@ -17,6 +17,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import MainPage from './pages/MainPage';
 import { SeriesLimitsProvider } from './context/SeriesLimitsProvider';
+import { PeriodProvider } from './context/PeriodProvider';
 
 
 const getDesignTokens = (mode) => ({
@@ -93,29 +94,31 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <SeriesLimitsProvider>
-        <Box
-          className='backgroundContainer'
-          sx={{
-            position: 'sticky',
-            display: 'block',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            bgcolor: theme.palette.background.default,
-          }}
-        >
-          <Box className='App'>
-            <ResponsiveAppBar />
-            {/* <PageNavigation /> */}
-            <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
-              <Routes>
-                <Route path='/' element={<MainPage />} />
-                <Route path='*' element={<ErrorPage />} />
-              </Routes>
+        <PeriodProvider>
+          <Box
+            className='backgroundContainer'
+            sx={{
+              position: 'sticky',
+              display: 'block',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              bgcolor: theme.palette.background.default,
+            }}
+          >
+            <Box className='App'>
+              <ResponsiveAppBar />
+              {/* <PageNavigation /> */}
+              <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
+                <Routes>
+                  <Route path='/' element={<MainPage />} />
+                  <Route path='*' element={<ErrorPage />} />
+                </Routes>
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </PeriodProvider>
       </SeriesLimitsProvider>
     </ThemeProvider>
   );

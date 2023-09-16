@@ -6,8 +6,8 @@ export default function TableSkeleton() {
 
   const skeletonStyle = useMemo(
     () => ({
-      width: 515,
-      height: 515,
+      width: 470,
+      height: 400,
       borderRadius: '10px'
     }), []);
 

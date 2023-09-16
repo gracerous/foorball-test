@@ -5,7 +5,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import './SeriesTable.css';
 import { useTheme } from '@mui/material/styles';
 
-export default function SeriesTable({ rowData, teams, leagues }) {
+export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit }) {
   const theme = useTheme();
   const gridRef = useRef();
 
@@ -61,10 +61,18 @@ export default function SeriesTable({ rowData, teams, leagues }) {
     return formattedDate;
   };
 
+  const seriesLimit = (params) => {
+    if (params.data.stat_home >= tableSeriesLimit) {
+      return params.data.stat_home;
+    } else if (params.data.stat_away >= tableSeriesLimit) {
+      return params.data.stat_away;
+    }
+  }
+
   const [columnDefs, setColumnDefs] = useState([
     { field: 'league_id', cellStyle: getCellStyle, maxWidth: 80, headerName: 'Лига', cellRenderer: leagueLogoRenderer },
     { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true), wrapText: true },
-    { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: (params) => params.data.stat_home || params.data.stat_away },
+    { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: seriesLimit },
     { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false), wrapText: true },
     { field: 'date', cellStyle: getDateCellStyle, maxWidth: 62, headerName: 'Дата', valueGetter: gameDate, wrapText: true },
   ]);

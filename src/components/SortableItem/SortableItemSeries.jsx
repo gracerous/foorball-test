@@ -4,8 +4,9 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import SeriesTable from '../SeriesTable/SeriesTable';
 import SeriesFilter from '../Filters/SeriesFilter/SeriesFilter';
+import { useSeriesLimits } from '../../context/SeriesLimitsProvider';
 
-const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName, seriesLimitChange }) => {
+const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
   const theme = useTheme();
   const {
     attributes,
@@ -15,9 +16,16 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName, seriesL
     transition
   } = useSortable({ id });
 
-  const seriesFilter = (limit) => {
-    seriesLimitChange(id, limit)
-  }
+  const { goalSeriesLimit, yCardsSeriesLimit } = useSeriesLimits();
+
+  const getSeriesLimitForTable = () => {
+    if (id === 'goals') {
+      return goalSeriesLimit;
+    } else if (id === 'yCards') {
+      return yCardsSeriesLimit;
+    }
+  };
+
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -48,12 +56,13 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName, seriesL
       </Box>
       <Box>
         <Box sx={{ marginBottom: '10px' }}>
-          <SeriesFilter seriesFilter={seriesFilter} />
+          <SeriesFilter category={id} />
         </Box>
         <SeriesTable
           rowData={rowData}
           teams={teams}
           leagues={leagues}
+          tableSeriesLimit={getSeriesLimitForTable()}
         />
       </Box>
     </Box>
