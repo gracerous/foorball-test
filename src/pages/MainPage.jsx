@@ -42,7 +42,9 @@ const MainPage = () => {
   useEffect(() => {
     const seriesArr = Object.values(series);
     const savedTableOrder = getTableOrder();
-    const sortedSeriesArr = savedTableOrder.map((tableId) =>
+    const defaultOrder = seriesArr.map((item) => item.id);
+    const combinedOrder = savedTableOrder.length > 0 ? savedTableOrder : defaultOrder;
+    const sortedSeriesArr = combinedOrder.map((tableId) =>
       seriesArr.find((item) => item.id === tableId)
     );
     const filteredSortedSeriesArr = sortedSeriesArr.filter((item) => item !== undefined);
