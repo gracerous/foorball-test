@@ -7,8 +7,8 @@ export const usePeriod = () => {
 };
 
 export const PeriodProvider = ({ children }) => {
-  const [minTimeStamp, setMinTimeStamp] = useState(null);
-  const [maxTimeStamp, setMaxTimeStamp] = useState(null);
+  const [minTimeStamp, setMinTimeStamp] = useState(Math.floor(new Date().setHours(0, 1, 0, 0) / 1000));
+  const [maxTimeStamp, setMaxTimeStamp] = useState(Math.floor(new Date().setHours(23, 59, 59, 999) / 1000));
 
   useEffect(() => {
     const presentDate = new Date();

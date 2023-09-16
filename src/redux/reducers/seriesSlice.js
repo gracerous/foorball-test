@@ -56,9 +56,9 @@ const seriesSlice = createSlice({
       };
     },
     [fetchGoalSeries.rejected]: (state, action) => {
-      console.log(state, action);
+      console.error('Goal series request failed:', action.error);
       state.goals = {
-        ...state,
+        ...state.goals,
         isLoading: false
       };
     },
@@ -77,9 +77,9 @@ const seriesSlice = createSlice({
       };
     },
     [fetchYCardsSeries.rejected]: (state, action) => {
-      console.log(state, action);
+      console.error('YCards series request failed:', action.error);
       state.yCards = {
-        ...state,
+        ...state.yCards,
         isLoading: false,
       };
     },

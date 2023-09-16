@@ -25,11 +25,15 @@ const MainPage = () => {
   const { minTimeStamp, maxTimeStamp } = usePeriod();
 
   useEffect(() => {
-    dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, goalSeriesLimit }));
+    if (goalSeriesLimit !== undefined) {
+      dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, goalSeriesLimit }));
+    }
   }, [dispatch, minTimeStamp, maxTimeStamp, goalSeriesLimit]);
 
   useEffect(() => {
-    dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }));
+    if (yCardsSeriesLimit !== undefined) {
+      dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }));
+    }
   }, [dispatch, minTimeStamp, maxTimeStamp, yCardsSeriesLimit]);
 
   const series = useSelector((state) => state.series);
