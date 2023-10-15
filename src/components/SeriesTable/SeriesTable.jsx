@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { Box, Paper, Tooltip } from '@mui/material';
 import 'ag-grid-community/styles/ag-grid.css';
-import './SeriesTable.css';
+import './SeriesTable.scss';
 import { useTheme } from '@mui/material/styles';
 
 export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit }) {
@@ -31,7 +31,7 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
             <img
               src={league.logo}
               alt={`League Logo - ${league.name}`}
-              style={{ width: '30px', height: '30px' }}
+              style={{ width: '75px', height: '50px' }}
             />
           </Tooltip>
         </Box>
@@ -42,11 +42,11 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
   };
 
   const getCellStyle = () => {
-    return { display: 'flex', alignItems: 'center', justifyContent: 'center' };
-  };
-
-  const getDateCellStyle = () => {
-    return { display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3px' };
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    };
   };
 
   const gameDate = (params) => {
@@ -54,10 +54,9 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
     const date = new Date(timestamp * 1000);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString().slice(-2);
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}`;
+    const formattedDate = `${day}.${month} | ${hours}:${minutes}`;
     return formattedDate;
   };
 
@@ -70,11 +69,48 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
   }
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: 'league_id', cellStyle: getCellStyle, maxWidth: 80, headerName: 'Лига', cellRenderer: leagueLogoRenderer },
-    { field: 'home_id', cellStyle: getCellStyle, headerName: 'Дома', valueGetter: (params) => teamName(params, true), wrapText: true },
-    { field: 'series', cellStyle: getCellStyle, maxWidth: 60, headerName: 'Серия', valueGetter: seriesLimit },
-    { field: 'away_id', cellStyle: getCellStyle, headerName: 'В гостях', valueGetter: (params) => teamName(params, false), wrapText: true },
-    { field: 'date', cellStyle: getDateCellStyle, maxWidth: 62, headerName: 'Дата', valueGetter: gameDate, wrapText: true },
+    {
+      field: 'league_id',
+      cellStyle: getCellStyle,
+      headerClass: 'headerLeague',
+      maxWidth: 100,
+      headerName: 'Лига',
+      cellRenderer: leagueLogoRenderer,
+      unSortIcon: true
+    },
+    {
+      field: 'home_id',
+      cellStyle: getCellStyle,
+      maxWidth: 128, headerName: 'Дома',
+      valueGetter: (params) => teamName(params, true),
+      unSortIcon: true
+    },
+    {
+      field: 'series',
+      cellStyle: getCellStyle,
+      maxWidth: 70,
+      headerName: 'Серия',
+      valueGetter: seriesLimit,
+      unSortIcon: true
+    },
+    {
+      field: 'away_id',
+      cellStyle: getCellStyle,
+      maxWidth: 128,
+      headerName: 'В гостях',
+      valueGetter: (params) => teamName(params, false),
+      wrapText: true,
+      unSortIcon: true
+    },
+    {
+      field: 'date',
+      cellStyle: getCellStyle,
+      maxWidth: 100,
+      headerName: 'Дата',
+      valueGetter: gameDate,
+      wrapText: true,
+      unSortIcon: true
+    },
   ]);
 
   const defaultColDef = {
@@ -86,18 +122,13 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
     autoHeight: true,
   };
 
-  const headerHeight = 40;
+  const headerHeight = 60;
   const rowHeight = 50;
 
-  const rowStyle = { background: theme.palette.table.primary };
-  const getRowStyle = params => {
-    if (params.node.rowIndex % 2 === 0) {
-      return { background: theme.palette.table.secondary };
-    }
-  };
-
   return (
-    <Paper elevation={2} className='ag-theme-alpine my-ag-grid' sx={{ minWidth: '470px', borderRadius: '10px', height: '290px' }}>
+    <Paper elevation={0}
+      className={`ag-theme-alpine my-ag-grid ${theme.palette.mode === 'light' ? 'light-theme-table' : 'dark-theme-table'}`}
+      sx={{ minWidth: '520px', borderRadius: '40px', height: '288px' }}>
       <AgGridReact
         ref={gridRef}
         rowData={rowData}
@@ -106,8 +137,7 @@ export default function SeriesTable({ rowData, teams, leagues, tableSeriesLimit 
         defaultColDef={defaultColDef}
         headerHeight={headerHeight}
         domLayout={'normal'}
-        rowStyle={rowStyle}
-        getRowStyle={getRowStyle}
+        rowHeight={rowHeight}
       />
     </Paper>
   );

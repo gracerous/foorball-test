@@ -3,10 +3,33 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import { useState } from 'react';
 import { usePeriod } from '../../../context/PeriodProvider';
+import { useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+
+const StyledInput = styled(InputBase)(({ theme }) => ({
+  'label + &': {
+    marginTop: theme.spacing(3),
+  },
+  '& .MuiInputBase-input': {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.table.primary,
+    border: '1px solid #ced4da',
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    fontFamily: [
+      'Ubuntu',
+    ],
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(246,248,141,.25)',
+    },
+  },
+}));
 
 export default function PeriodFilter() {
+  const theme = useTheme();
   const { setMinTimeStamp, setMaxTimeStamp } = usePeriod();
 
   const handleChange = (event) => {
@@ -27,17 +50,18 @@ export default function PeriodFilter() {
   };
 
   return (
-    <Box sx={{ minWidth: 125 }}>
+    <Box>
       <FormControl fullWidth>
-        <InputLabel id='dateFilter'>Выберите дату</InputLabel>
+        <InputLabel sx={{ color: theme.palette.text.primary, "&.Mui-focused": { color: theme.palette.text.primary } }} id='dateFilter'>Выберите дату</InputLabel>
         <Select
           labelId='dateFilter'
           id='dateFilterSelect'
           label='Выберите дату'
           onChange={handleChange}
           defaultValue={'today'}
+          input={<StyledInput />}
         >
-          <MenuItem  value={'today'}>Сегодня</MenuItem>
+          <MenuItem value={'today'}>Сегодня</MenuItem>
           <MenuItem value={'tomorrow'}>Завтра</MenuItem>
         </Select>
       </FormControl>

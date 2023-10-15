@@ -1,69 +1,76 @@
 import { useEffect, useState, useMemo } from 'react';
 import './App.css';
-// import { fetchTeamsAndLeagues } from './redux/dataMiddleware';
 import { getMainInfo } from './redux/reducers/mainInfoSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import PageNavigation from './components/PageNavigation/PageNavigation';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-// import { toggleTheme } from './redux/reducers/themeSlice';
 import ResponsiveAppBar from './components/ResponsiveAppBar/ResponsiveAppBar';
 import ErrorPage from './pages/ErrorPage';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import '@fontsource/ubuntu';
+import '@fontsource/ubuntu/300.css';
+import '@fontsource/ubuntu/400.css';
+import '@fontsource/ubuntu/500.css';
+import '@fontsource/ubuntu/700.css';
 import MainPage from './pages/MainPage';
 import { SeriesLimitsProvider } from './context/SeriesLimitsProvider';
 import { PeriodProvider } from './context/PeriodProvider';
-
+import lighLargeBg from './img/bgLightLarge.svg';
+import darkLargeBg from './img/bgDarkLarge.svg';
 
 const getDesignTokens = (mode) => ({
+  typography: {
+    fontFamily: [
+      'Ubuntu'
+    ],
+    h3: {
+      fontSize: '1.125rem',
+      lineHeight: 'normal',
+      fontStyle: 'normal'
+    }
+  },
   palette: {
     mode,
-    ...(mode === "light"
+    ...(mode === 'light'
       ? {
         // palette values for light mode
         primary: {
-          main: "#E7E6E1",
+          main: '#3B4047',
+          secondary: '#F6F88D'
         },
-        divider: "#C1C0B9",
         background: {
-          default: "#C1C0B9",
-          paper: "#E7E6E1",
+          default: '#fbfbfd',
+          paper: '#fbfbfd',
         },
         text: {
-          primary: "#537791",
-          secondary: "#27272a",
-          icons: '#537791'
+          primary: '#1d1d1f',
+          secondary: '#fbfbfd',
+          icons: '#686C72'
         },
         table: {
-          // primary: '#C1C0B9',
-          // secondary: '#E7E6E1'
-          primary: '#DDE6ED',
-          secondary: '#9DB2BF'
+          header: '#3B4047',
+          primary: '#fbfbfd',
+          secondary: '#FFF'
         }
       }
       : {
         // palette values for dark mode
         primary: {
-          main: "#526D82",
+          main: '#3B4047',
+          secondary: '#F6F88D'
         },
-        divider: "#27374D",
         background: {
-          default: "#27374D",
-          paper: "#000e21",
+          default: '#fbfbfd',
+          paper: '#545860'
         },
         text: {
-          primary: "#fff",
-          secondary: "#71717a",
-          icons: '#9DB2BF'
+          primary: '#fbfbfd',
+          secondary: '#1d1d1f',
+          icons: '#686C72'
         },
         table: {
-          primary: '#DDE6ED',
-          secondary: '#9DB2BF'
+          header: '#3B4047',
+          primary: '#81858C',
         }
       }),
   },
@@ -105,12 +112,16 @@ function App() {
               right: 0,
               bottom: 0,
               bgcolor: theme.palette.background.default,
+              bgcolor: theme.palette.table.primary,
+              backgroundImage: theme.palette.mode === 'light' ? `url(${lighLargeBg})` : `url(${darkLargeBg})`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
             }}
           >
             <Box className='App'>
               <ResponsiveAppBar />
-              {/* <PageNavigation /> */}
-              <Box sx={{ width: 'calc(100% - 240px)', mr: 'auto', ml: 'auto' }}>
+              <Box sx={{ width: 'calc(100% - 90px)', mr: 'auto', ml: 'auto' }}>
                 <Routes>
                   <Route path='/' element={<MainPage />} />
                   <Route path='*' element={<ErrorPage />} />

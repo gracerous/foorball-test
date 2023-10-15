@@ -1,10 +1,11 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useTheme } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Box, Paper, Typography, IconButton } from '@mui/material';
 import SeriesTable from '../SeriesTable/SeriesTable';
 import SeriesFilter from '../Filters/SeriesFilter/SeriesFilter';
 import { useSeriesLimits } from '../../context/SeriesLimitsProvider';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
   const theme = useTheme();
@@ -31,28 +32,28 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
     transform: CSS.Transform.toString(transform),
     transition: transition || undefined,
     position: 'relative',
-    border: '2px solid red',
+    borderRadius: '40px',
+    padding: '15px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '400px'
+    height: '406px',
   };
 
   return (
-    <Box sx={style} ref={setNodeRef}>
+    <Paper sx={style} ref={setNodeRef}>
       <Box
         sx={{
-          minWidth: '50px',
-          height: '100%',
-          borderRadius: '10px',
+          position: 'absolute',
           color: theme.palette.text.icons
         }}
         {...listeners}
         {...attributes}
       >
-        <Box>
-          <Typography variant='h4'>{categoryName}</Typography>
-        </Box>
+        <IconButton><DragIndicatorIcon sx={{ fontSize: '30px' }} /></IconButton>
+      </Box>
+      <Box>
+        <Typography variant='h3'>{categoryName}</Typography>
       </Box>
       <Box>
         <Box sx={{ marginBottom: '10px' }}>
@@ -65,7 +66,7 @@ const SortableItemSeries = ({ id, rowData, teams, leagues, categoryName }) => {
           tableSeriesLimit={getSeriesLimitForTable()}
         />
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

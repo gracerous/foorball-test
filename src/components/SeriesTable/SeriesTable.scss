@@ -1,0 +1,108 @@
+$header-bg-color: #3B4047;
+$main-dark-color: #fbfbfd;
+$header-text-color: #fbfbfd;
+$secondary-dark-color: #3B4047;
+$main-text-color: #1d1d1f;
+$light-row-bg-color: #fbfbfd;
+$dark-row-bg-color: #81858C;
+
+
+.light-theme-table {
+  .ag-header {
+    background-color: $header-bg-color;
+
+    .ag-header-cell-text {
+      color: $header-text-color;
+      font-size: 1.125rem;
+    }
+  }
+  .ag-row {
+    background-color: $light-row-bg-color;
+  }
+}
+
+.dark-theme-table {
+  .ag-header {
+    background-color: $header-bg-color;
+
+    .ag-header-cell-text {
+      color: $header-text-color;
+      font-size: 1.125rem;
+    }
+  }
+  .ag-row {
+    background-color: $dark-row-bg-color;
+
+    .ag-cell {
+      color: $main-dark-color;
+    }
+  }
+}
+
+.ag-cell {
+  color: $main-text-color;
+  padding: 0;
+  text-align: center;
+  .ag-cell-value {
+    font-size: 0.9375rem;
+    white-space: wrap;
+    word-break: break-word;
+  }
+
+  &-wrapper {
+    margin: auto;
+  }
+}
+
+.ag-header-cell-label {
+  justify-content: center;
+}
+.ag-icon-none::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+.ag-icon-asc::before,
+.ag-icon-desc::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background-color: transparent;
+  border-right: 2px solid #F6F88D;
+  border-bottom: 2px solid #F6F88D;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+.ag-icon-asc::before {
+  transform: rotate(45deg);
+}
+
+.ag-icon-desc::before {
+  transform: rotate(-135deg);
+}
+
+.ag-root-wrapper {
+  border-radius: 40px;
+  border: none;
+  background-color: transparent;
+  box-shadow: 0px -1px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+.ag-header-cell {
+  padding: 0;
+}
+
+.headerLeague{
+  padding-left: 20px
+}
+
+.ag-background-color {
+  background-color: none;
+}

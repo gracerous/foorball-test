@@ -27,27 +27,32 @@ export default function SeriesFilter({ category }) {
   };
 
   const buttonStyle = {
-    borderRadius: '50%',
+    borderRadius: '1.875rem',
     minWidth: 0,
-    width: 32,
-    height: 32,
+    width: '1.875rem',
+    height: '1.875rem',
     padding: 0,
-    color: 'black',
+    fontSize: theme.typography.h3
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
+        display: 'inline-flex',
         justifyContent: 'center',
+        alignItems: 'center',
+        gap: '1.25rem'
       }}
     >
-      <Typography sx={{ mr: '1em' }} variant="subtitle1">Серия</Typography>
+      <Typography variant='h3'>Серия</Typography>
       <Box
         sx={{
-          border: '1px solid #e1e1e1',
-          borderRadius: 20,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '0.3125rem',
+          borderRadius: '2rem',
+          boxShadow: '0px 0px 4px 0px rgba(0, 0, 0, 0.25) inset'
         }}
       >
         {[1, 2, 3, 4, 5, 6].map((limit) => (
@@ -55,7 +60,8 @@ export default function SeriesFilter({ category }) {
             key={limit}
             sx={{
               ...buttonStyle,
-              backgroundColor: selectedLimit === limit ? theme.palette.table.secondary : 'transparent',
+              backgroundColor: selectedLimit === limit ? theme.palette.primary.secondary : 'transparent',
+              color: selectedLimit === limit ? '#1d1d1f' : theme.palette.text.primary
             }}
             onClick={() => handleSeriesLimitChange(limit)}
           >

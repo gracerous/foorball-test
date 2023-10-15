@@ -126,6 +126,13 @@ const MainPage = () => {
               )
             ))}
           </SortableContext>
+          {/* <TableSkeleton/>
+          <TableSkeleton/>
+          <TableSkeleton/>
+          <TableSkeleton/>
+          <TableSkeleton/>
+          <TableSkeleton/>
+          <TableSkeleton/> */}
         </DndContext>
       </Box>
     </Box>

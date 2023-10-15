@@ -6,9 +6,9 @@ export default function TableSkeleton() {
 
   const skeletonStyle = useMemo(
     () => ({
-      width: 470,
-      height: 400,
-      borderRadius: '10px'
+      width: 550,
+      height: 406,
+      borderRadius: '40px'
     }), []);
 
   return (
@@ -17,9 +17,9 @@ export default function TableSkeleton() {
       justifyContent: 'center',
       flexWrap: 'wrap',
       alignContent: 'space-between',
-      '& > *': {
-        margin: '10px',
-      }
+      // '& > *': {
+      //   margin: '10px',
+      // }
     }}>
       <Skeleton variant='rounded' animation='wave' sx={skeletonStyle} />
     </Box>
