@@ -9,6 +9,7 @@ export const useSeriesLimits = () => {
 export const SeriesLimitsProvider = ({ children }) => {
   const [goalSeriesLimit, setGoalSeriesLimit] = useState(5);
   const [yCardsSeriesLimit, setYCardsSeriesLimit] = useState(5);
+  const [mobileSeriesLimit, setMobileSeriesLimit] = useState(5);
  
   return (
     <SeriesLimitsContext.Provider
@@ -16,7 +17,9 @@ export const SeriesLimitsProvider = ({ children }) => {
         goalSeriesLimit,
         setGoalSeriesLimit,
         yCardsSeriesLimit,
-        setYCardsSeriesLimit
+        setYCardsSeriesLimit,
+        mobileSeriesLimit,
+        setMobileSeriesLimit
       }}
     >
       {children}

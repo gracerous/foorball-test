@@ -17,6 +17,7 @@ import { SeriesLimitsProvider } from './context/SeriesLimitsProvider';
 import { PeriodProvider } from './context/PeriodProvider';
 import lighLargeBg from './img/bgLightLarge.svg';
 import darkLargeBg from './img/bgDarkLarge.svg';
+import { CategoryProvider } from './context/CategoryProvider';
 
 const getDesignTokens = (mode) => ({
   typography: {
@@ -27,6 +28,13 @@ const getDesignTokens = (mode) => ({
       fontSize: '1.125rem',
       lineHeight: 'normal',
       fontStyle: 'normal'
+    },
+    p: {
+      fontSize: '0.75rem',
+      lineHeight: '1rem',
+      verticalAlign: 'middle',
+      fontStyle: 'normal',
+      fontWeight: '400'
     }
   },
   palette: {
@@ -39,7 +47,7 @@ const getDesignTokens = (mode) => ({
           secondary: '#F6F88D'
         },
         background: {
-          default: '#fbfbfd',
+          default: '#d9d9d9',
           paper: '#fbfbfd',
         },
         text: {
@@ -60,7 +68,7 @@ const getDesignTokens = (mode) => ({
           secondary: '#F6F88D'
         },
         background: {
-          default: '#fbfbfd',
+          default: '#81858C',
           paper: '#545860'
         },
         text: {
@@ -102,33 +110,38 @@ function App() {
     <ThemeProvider theme={theme}>
       <SeriesLimitsProvider>
         <PeriodProvider>
-          <Box
-            className='backgroundContainer'
-            sx={{
-              position: 'sticky',
-              display: 'block',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              bgcolor: theme.palette.background.default,
-              bgcolor: theme.palette.table.primary,
-              backgroundImage: theme.palette.mode === 'light' ? `url(${lighLargeBg})` : `url(${darkLargeBg})`,
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <Box className='App'>
-              <ResponsiveAppBar />
-              <Box sx={{ width: 'calc(100% - 90px)', mr: 'auto', ml: 'auto' }}>
-                <Routes>
-                  <Route path='/' element={<MainPage />} />
-                  <Route path='*' element={<ErrorPage />} />
-                </Routes>
+          <CategoryProvider>
+            <Box
+              className='backgroundContainer'
+              sx={{
+                position: 'sticky',
+                display: 'block',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                bgcolor: theme.palette.background.default,
+                backgroundImage: theme.palette.mode === 'light' ? `url(${lighLargeBg})` : `url(${darkLargeBg})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <Box className='App'>
+                <ResponsiveAppBar />
+                <Box sx={{
+                  width: 'calc(100% - 60px)', mr: 'auto', ml: 'auto', [theme.breakpoints.down('sm')]: {
+                    width: 'calc(100% - 10px)',
+                  }
+                }}>
+                  <Routes>
+                    <Route path='/' element={<MainPage />} />
+                    <Route path='*' element={<ErrorPage />} />
+                  </Routes>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </CategoryProvider>
         </PeriodProvider>
       </SeriesLimitsProvider>
     </ThemeProvider>

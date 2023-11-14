@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchGoalSeries, fetchYCardsSeries } from '../redux/reducers/seriesSlice';
-import { Box } from '@mui/material';
-// import { useTheme } from '@mui/material/styles';
+import { Box, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import TableSkeleton from '../components/TableSkeleton/TableSkeleton';
 import {
   DndContext,
@@ -17,24 +17,49 @@ import SortableItemSeries from '../components/SortableItem/SortableItemSeries';
 import { useSeriesLimits } from '../context/SeriesLimitsProvider';
 import Filters from '../components/Filters/Filters';
 import { usePeriod } from '../context/PeriodProvider';
+import MobileTable from '../components/MobileTable/MobileTable';
+import { useCategory } from '../context/CategoryProvider';
 
 const MainPage = () => {
-  // const theme = useTheme();
+  const theme = useTheme();
   const dispatch = useDispatch();
-  const { goalSeriesLimit, yCardsSeriesLimit } = useSeriesLimits();
+  const { goalSeriesLimit, yCardsSeriesLimit, mobileSeriesLimit } = useSeriesLimits();
   const { minTimeStamp, maxTimeStamp } = usePeriod();
+  const { category } = useCategory();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 899);
 
   useEffect(() => {
-    if (goalSeriesLimit !== undefined) {
-      dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, goalSeriesLimit }));
-    }
-  }, [dispatch, minTimeStamp, maxTimeStamp, goalSeriesLimit]);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 899);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [])
 
   useEffect(() => {
-    if (yCardsSeriesLimit !== undefined) {
-      dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }));
-    }
-  }, [dispatch, minTimeStamp, maxTimeStamp, yCardsSeriesLimit]);
+    const fetchSeries = () => {
+      if (isMobile && mobileSeriesLimit !== undefined) {
+        dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, goalSeriesLimit: mobileSeriesLimit }));
+      } else if (goalSeriesLimit !== undefined) {
+        dispatch(fetchGoalSeries({ minTimeStamp, maxTimeStamp, goalSeriesLimit }));
+      }
+    };
+    fetchSeries();
+  }, [dispatch, minTimeStamp, maxTimeStamp, goalSeriesLimit, isMobile, mobileSeriesLimit]);
+
+  useEffect(() => {
+    const fetchYCardSeries = () => {
+      if (isMobile && mobileSeriesLimit !== undefined) {
+        dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit: mobileSeriesLimit }));
+      } else if (yCardsSeriesLimit !== undefined) {
+        dispatch(fetchYCardsSeries({ minTimeStamp, maxTimeStamp, yCardsSeriesLimit }));
+      }
+    };
+    fetchYCardSeries();
+  }, [dispatch, minTimeStamp, maxTimeStamp, yCardsSeriesLimit, isMobile, mobileSeriesLimit]);
+
 
   const series = useSelector((state) => state.series);
   const [items, setItems] = useState([]);
@@ -91,7 +116,9 @@ const MainPage = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-      <Box sx={{ maxWidth: '20%', height: '300px', padding: '10px' }}>
+      <Box sx={{
+        maxWidth: '20%', height: '300px', padding: '10px', ...(isMobile && { display: 'none' })
+      }}>
         <Filters />
       </Box>
       <Box
@@ -102,38 +129,43 @@ const MainPage = () => {
           alignContent: 'space-between',
           '& > *': {
             margin: '10px',
+          },
+          [theme.breakpoints.down('md')]: {
+            width: '100%',
           }
         }}
       >
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={items} strategy={rectSortingStrategy}>
-            {items.map((item) => (
-              item.isLoading || mainInfo.isLoading ? (
-                <TableSkeleton key={item.id} />
-              ) : (
-                <SortableItemSeries
-                  key={item.id}
-                  id={item.id}
-                  rowData={item.games}
-                  teams={mainInfo.teams}
-                  leagues={mainInfo.leagues}
-                  categoryName={item.categoryName}
-                />
-              )
-            ))}
-          </SortableContext>
-          {/* <TableSkeleton/>
-          <TableSkeleton/>
-          <TableSkeleton/>
-          <TableSkeleton/>
-          <TableSkeleton/>
-          <TableSkeleton/>
-          <TableSkeleton/> */}
-        </DndContext>
+        {isMobile ? (Object.values(series).map((seriesCategory) => (
+          seriesCategory.categoryName === category ? (
+            seriesCategory.games.length > 0 ?
+              <MobileTable key={seriesCategory.id} data={seriesCategory.games} /> :
+              <Typography variant='h3 '>Нет игр по заданным параметрам</Typography>
+          ) : null
+        )))
+          : (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={items} strategy={rectSortingStrategy}>
+                {items.map((item) => (
+                  item.isLoading || mainInfo.isLoading ? (
+                    <TableSkeleton key={item.id} />
+                  ) : (
+                    <SortableItemSeries
+                      key={item.id}
+                      id={item.id}
+                      rowData={item.games}
+                      teams={mainInfo.teams}
+                      leagues={mainInfo.leagues}
+                      categoryName={item.categoryName}
+                    />
+                  )
+                ))}
+              </SortableContext>
+            </DndContext>
+          )}
       </Box>
     </Box>
   )
