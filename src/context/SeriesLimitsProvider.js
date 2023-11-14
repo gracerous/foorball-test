@@ -9,7 +9,7 @@ export const useSeriesLimits = () => {
 export const SeriesLimitsProvider = ({ children }) => {
   const [goalSeriesLimit, setGoalSeriesLimit] = useState(5);
   const [yCardsSeriesLimit, setYCardsSeriesLimit] = useState(5);
-  const [mobileSeriesLimit, setMobileSeriesLimit] = useState(5);
+  const [mobileSeriesLimit, setMobileSeriesLimit] = useState(1);
  
   return (
     <SeriesLimitsContext.Provider
